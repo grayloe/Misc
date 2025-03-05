@@ -142,7 +142,7 @@ def rasterExtents(rasterFileName, VectorExtentFileName):
     gdf["XMAX"] = maxx
     gdf["YMIN"] = miny
     gdf["YMAX"] = maxy
-    gdf["METALINK"] = "V:\GIS2-Supplement\Data\Imagery\DEM_LIDAR\LIDAR\*\*"
+    gdf["METALINK"] = "\\Corporateict.domain\dfs\shareddata\GIS-CALM\GIS2-Supplement\Data\Imagery\DEM_LIDAR\LIDAR"
     gdf["FILESIZE_B"] = os.stat(rasterFileName).st_size
     gdf["FILESIZE_MB"] = os.stat(rasterFileName).st_size/(1024*1024)
     gdf["FILESIZE_GB"] = os.stat(rasterFileName).st_size/(1024*1024*1024)
