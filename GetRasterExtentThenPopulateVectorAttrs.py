@@ -7,6 +7,7 @@ Created on Wed Mar  5 12:53:06 2025
 
 import os
 import glob 
+import rasterio 
 import geopandas as gpd
 import rioxarray as rio
 from shapely.geometry import box, Polygon
@@ -44,6 +45,11 @@ len(lst_fin)
 
 def rasterExtents(rasterFileName, VectorExtentFileName):
     # farie
+
+    with rasterio.open(rasterFileName) as src:
+        src_drv = src.meta["driver"]
+        
+    
     print("Reading lazily the raster...")
     xds = rio.open_rasterio(rasterFileName)    
 
@@ -115,9 +121,9 @@ def rasterExtents(rasterFileName, VectorExtentFileName):
     #print(gdf.dtypes)
     
     print("Attributing the records with values...")
-    gdf["PATH"] =  str(os.path.split(rasterFileName)[0])
+    gdf["PATH"] =  "\\Corporateict.domain\dfs\shareddata\GIS-CALM\GIS2-Supplement\Data\Imagery\DEM_LIDAR\LIDAR" # str(os.path.split(rasterFileName)[0])
     gdf["FILENAME"] = str(os.path.split(rasterFileName)[1])
-    gdf["FORMAT"] = str(os.path.splitext(rasterFileName)[1])
+    gdf["FORMAT"] = str(src_drv)
     gdf["ATTRIBUTE"] = "DEM"
     gdf["DATAUNIT"] = "Meters"
     gdf["SOURCE"] = "Landgate"
@@ -146,7 +152,6 @@ def rasterExtents(rasterFileName, VectorExtentFileName):
     print("Writing the gdf to file...")
     #gdf.to_file(dst_fil + ".geojson', driver='GeoJSON')  
     gdf.to_file(VectorExtentFileName + ".shp")   
-
     return
 
 for src_fil in lst_fin:
